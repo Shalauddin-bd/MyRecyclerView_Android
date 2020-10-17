@@ -5,9 +5,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
 
-public class MainActivity extends AppCompatActivity {
-
+public class MainActivity extends AppCompatActivity implements RecyclerAdapter.OnRecyclerListItemClickListener {
+    private static final String TAG = "MainActivity";
     RecyclerView recyclerView;
     RecyclerView.Adapter recyclerAdapter;
     RecyclerView.LayoutManager recyclerLayoutManager;
@@ -29,7 +30,12 @@ public class MainActivity extends AppCompatActivity {
         recyclerLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(recyclerLayoutManager);
 
-        recyclerAdapter = new RecyclerAdapter(this,titleList, descriptionList, itemImageList);
+        recyclerAdapter = new RecyclerAdapter(this,titleList, descriptionList, itemImageList, this);
         recyclerView.setAdapter(recyclerAdapter);
+    }
+
+    @Override
+    public void OnListItemClick(int position) {
+        Log.d(TAG, "OnListItemClick: Clicked- " + position);
     }
 }

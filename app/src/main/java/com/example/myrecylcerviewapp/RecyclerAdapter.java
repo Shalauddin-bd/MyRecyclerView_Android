@@ -17,26 +17,37 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     String[] descriptionList;
     int[] itemImageList;
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    private OnRecyclerListItemClickListener onRecyclerListItemClickListener;
+
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView rowTitle;
         TextView rowDescription;
         ImageView rowImage;
 
-        public ViewHolder(@NonNull View itemView) {
+        OnRecyclerListItemClickListener onRecyclerListItemClickListener;
+        public ViewHolder(@NonNull View itemView, OnRecyclerListItemClickListener onRecyclerListItemClickListener) {
             super(itemView);
 
             rowTitle = itemView.findViewById(R.id.textViewTitle);
             rowDescription = itemView.findViewById(R.id.textViewDescription);
             rowImage = itemView.findViewById(R.id.imageViewItemImage);
+            this.onRecyclerListItemClickListener = onRecyclerListItemClickListener;
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            onRecyclerListItemClickListener.OnListItemClick(getAdapterPosition());
         }
     }
 
-    public RecyclerAdapter(Context context, String[] titleList, String[] descriptionList, int[] itemImageList) {
+    public RecyclerAdapter(Context context, String[] titleList, String[] descriptionList, int[] itemImageList, OnRecyclerListItemClickListener onRecyclerListItemClickListener) {
         this.context = context;
         this.titleList = titleList;
         this.descriptionList = descriptionList;
         this.itemImageList = itemImageList;
+        this.onRecyclerListItemClickListener = onRecyclerListItemClickListener;
     }
 
     @NonNull
@@ -45,7 +56,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
         LayoutInflater layoutInflater= LayoutInflater.from(context);
         View view = layoutInflater.inflate( R.layout.single_item, parent, false);
-        ViewHolder viewHolder = new ViewHolder(view);
+        ViewHolder viewHolder = new ViewHolder(view, onRecyclerListItemClickListener);
         return viewHolder;
     }
 
@@ -60,5 +71,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     @Override
     public int getItemCount() {
         return titleList.length;
+    }
+
+    public interface OnRecyclerListItemClickListener{
+        void OnListItemClick(int position);
     }
 }
