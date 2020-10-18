@@ -1,10 +1,9 @@
 package com.example.myrecylcerviewapp;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class ListItemActivity01 extends AppCompatActivity {
 
